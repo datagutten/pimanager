@@ -1,4 +1,5 @@
 language: python
+install: python3 setup.py sdist bdist_wheel
 deploy:
   provider: pypi
   user: __token__

@@ -1,0 +1,5 @@
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+0,10,20,30,40,50 * * * * root /usr/bin/python3 /home/report_status_pimanager.py >/var/log/report_status_pimanager.log 2>&1
+0,10,20,30,40,50 * * * * root /usr/bin/python3 /home/action.py >/var/log/action.log 2>&1
+@reboot root /usr/bin/python3 /home/report_status_pimanager.py >/var/log/report_status_pimanager.log 2>&1
+@reboot root /usr/bin/python3 /home/action.py >/var/log/action.log 2>&1

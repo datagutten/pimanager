@@ -1,0 +1,13 @@
+{% load static %}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ pimanager|default:"" }}</title>
+<link href="{% static "pimanager/pimanager.css" %}" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+{% block content %} {% endblock %}
+</body>
+</html>

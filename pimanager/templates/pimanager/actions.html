@@ -1,0 +1,26 @@
+{% extends 'pimanager/base.html' %}
+
+{% block content %}
+    {% if actions %}
+	<table border="1">
+	<tr>
+		<th>Enhet</th>
+		<th>Kommando</th>
+		<th>Lagt til</th>
+		<th>Kjørt</th>
+		<th>Returkode</th>
+		<th>Utdata</th>
+	</tr>
+	{% for action in actions %}
+        <tr>
+            <td>{{ action.device }}</td>
+            <td>{{ action.command }}</td>
+        <td>{{ action.added }}</td>
+        <td>{{ action.executed }}</td>
+        <td>{{ action.return_code }}</td>
+        <td><span style="font-family: monospace;">{{ action.output|linebreaksbr }}</span></td>
+        </tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+{% endblock %}

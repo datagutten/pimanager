@@ -1,0 +1,45 @@
+{% extends 'pimanager/base.html' %}
+
+{% block content %}
+    {% if devices %}
+        <table border="1">
+            <tr>
+                <th>Nummer</th>
+                <th>Serienr</th>
+                <th>IP</th>
+                <th>Port</th>
+                <th>PoE</th>
+                <th>Navn</th>
+                <th>Beskrivelse</th>
+                <th>Sist aktiv</th>
+                <th>Oppetid</th>
+                <th>Siste status</th>
+                <th>Skjermstatus</th>
+                <th>Oppgaver</th>
+
+            </tr>
+            {% for device in devices %}
+                <tr>
+                    <td>{{ device.number }}</td>
+                    <td>{{ device.serial }}</td>
+                    <td>{{ device.ip }}</td>
+                    <td>{{ device.port }}</td>
+                    {% if device.interface.poe_status %}
+                    <td>{{ device.interface.poe_status }}
+                        {% if device.interface.poe_status == 'deliveringPower' %}<a href="{% url 'device_status:power_cycle_device' device=device.serial %}">R</a>{% endif %}
+                            </td>
+                    {% else %}
+                    <td></td>
+                    {% endif %}
+                    <td>{{ device.name }}</td>
+                    <td>{{ device.description|default:"" }}</td>
+                    <td class="{{ device.last_seen_class }}">{{ device.last_seen }}</td>
+                    <td>{{ device.uptime|default:"" }}</td>
+                    <td>{{ device.message|default:"" }}</td>
+                    <td>{{ device.screen_status|default:"" }}</td>
+                    <td><a href="{% url 'device_status:actions_pending' mac=device.mac %}">{{ device.pending_actions.count }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

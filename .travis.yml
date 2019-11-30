@@ -1,6 +1,10 @@
 language: python
-install: python3 setup.py sdist bdist_wheel
-script: skip
+install:
+  - python3 setup.py install
+  - django-admin startproject pimanager_test
+  - cp settings.py pimanager_test/pimanager_test
+script:
+  - python3 pimanager_test/manage.py test
 deploy:
   provider: pypi
   user: __token__

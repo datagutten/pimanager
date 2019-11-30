@@ -1,10 +1,10 @@
 language: python
-install:
-  - python3 setup.py install
-  - django-admin startproject pimanager_test
-  - cp settings.py pimanager_test/pimanager_test
+addons:
+  apt:
+    packages:
+      - python3-django
 script:
-  - python3 pimanager_test/manage.py test
+  - ./runtests.py
 deploy:
   provider: pypi
   user: __token__

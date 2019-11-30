@@ -4,7 +4,7 @@ addons:
     packages:
       - python3-django
 script:
-  - ./runtests.py
+  - python3 runtests.py
 deploy:
   provider: pypi
   user: __token__

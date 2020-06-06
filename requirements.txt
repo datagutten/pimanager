@@ -1,1 +1,3 @@
-django>=2.1,<3
+django>=2.2.11
+switchinfo
+django-switch-config-backup

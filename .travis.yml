@@ -3,7 +3,7 @@ script:
   - python3 runtests.py
 before_deploy:
   - git stash --all
-  - echo "$TRAVIS_TAG">VERSION
+  - echo "$TRAVIS_TAG">pimanager/VERSION
 deploy:
   cleanup: false
   edge: true

@@ -1,7 +1,11 @@
 language: python
 script:
   - python3 runtests.py
+before_deploy:
+  - git stash --all
+  - echo "$TRAVIS_TAG">VERSION
 deploy:
+  cleanup: false
   provider: pypi
   user: __token__
   password:

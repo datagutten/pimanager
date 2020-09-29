@@ -1,21 +1,17 @@
 import re
+import socket
 import subprocess
 from uuid import getnode
+
 import requests
 
-import socket
 hostname = socket.gethostname()
-
 
 # https://stackoverflow.com/questions/159137/getting-mac-address
 mac = getnode()
-mac = ':'.join(('%012x' % mac)[i:i+2] for i in range(0, 12, 2))
-# print (mac)
+mac = ':'.join(('%012x' % mac)[i:i + 2] for i in range(0, 12, 2))
 
 ifconfig = subprocess.check_output(['/sbin/ip', 'addr'], universal_newlines=True)
-
-#m = re.search('[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}:[a-f0-9]{2}', ifconfig)
-#mac = m.group()
 
 ps_aux = subprocess.check_output(['/bin/ps', 'aux'])
 tvservice = subprocess.check_output(['tvservice', '-s'])

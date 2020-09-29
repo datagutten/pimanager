@@ -29,20 +29,17 @@ except subprocess.CalledProcessError:
     print(uptime)
     upsince = ''
 
-file = open('/proc/cpuinfo', 'r')
-cpuinfo = file.read()
-groups = re.search(r'Serial\s+: .*?([1-9a-f][0-9a-f]+)', cpuinfo)
+with open('/proc/cpuinfo', 'r') as fp:
+    cpuInfo = fp.read()
+
+groups = re.search(r'Serial\s+: .*?([1-9a-f][0-9a-f]+)', cpuInfo)
 if groups:
     serial = groups.group(1)
 else:
     serial = None
 
-try:
-    file_model = open('cat /sys/firmware/devicetree/base/model', 'r')
-    model = file.read()
-except IOError:
-    model = ''
-
+with open('/sys/firmware/devicetree/base/model', 'r') as fp:
+    model = fp.read()
 
 action = requests.post('http://pimanager/device_status/report',
                        data={'mac': mac,

@@ -1,16 +1,27 @@
 import datetime
+import os
 import re
 from pprint import pprint
 
+from django.apps import apps
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render as django_render
 from django.views.decorators.csrf import csrf_exempt
 
 from pimanager.models import Action, Device
 
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the device_status index.")
+def render(request, template_name, context=None, content_type=None, status=None, using=None):
+    version_file = os.path.join(apps.get_app_config('pimanager').path, 'VERSION')
+    if os.path.exists(version_file):
+        with open(version_file) as fp:
+            version = fp.read().strip()
+        version = version
+        context['version'] = version
+    else:
+        context['version'] = 'development version'
+
+    return django_render(request, template_name, context, content_type, status, using)
 
 
 @csrf_exempt

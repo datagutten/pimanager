@@ -6,6 +6,7 @@ before_deploy:
   - echo "$TRAVIS_TAG">VERSION
 deploy:
   cleanup: false
+  edge: true
   provider: pypi
   user: __token__
   password:

@@ -12,6 +12,7 @@ if not os.path.exists('VERSION'):
 else:
     with open('VERSION', 'r') as fp:
         version = fp.read().strip()
+        version = version[1:]  # Remove v before version number
 
 setup(
     name='pimanager',

@@ -1,3 +1,4 @@
+import os
 import subprocess
 from uuid import getnode
 import pkg_resources
@@ -9,7 +10,14 @@ pkg_resources.require("requests>=1.0.0")
 
 mac = getnode()
 mac = ':'.join(('%012x' % mac)[i:i+2] for i in range(0, 12, 2))
-base_url = 'http://pimanager'
+
+if os.path.exists('/home/PiManager/url.txt'):
+    with open('/home/PiManager/url.txt', 'r') as fp:
+        base_url = fp.read()
+        base_url = base_url.strip()
+else:
+    base_url = 'http://pimanager'
+
 actions = requests.get(base_url + '/actions/'+mac)
 for action in actions.json():
     print(action)

@@ -141,9 +141,8 @@ def reboot(request, device):
 
 
 def client_setup(request):
-    from django.templatetags.static import static
-    url = static('pimanager/client_setup.sh')
-    return redirect(url)
+    host = request.build_absolute_uri('/')[:-1]
+    return render(request, 'pimanager/client_setup.sh', {'url': host})
 
 
 def power_cycle(request, device):

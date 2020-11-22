@@ -38,12 +38,12 @@ else:
 with open('/sys/firmware/devicetree/base/model', 'r') as fp:
     model = fp.read()
 
-if os.path.exists('/home/PiManager/report_url.txt'):
-    with open('/home/PiManager/report_url.txt', 'r') as fp:
+if os.path.exists('/home/PiManager/url.txt'):
+    with open('/home/PiManager/url.txt', 'r') as fp:
         url = fp.read()
-        url = url.strip()
+        url = '%s/report' % url.strip()
 else:
-    url = 'http://pimanager/device_status/report'
+    url = 'http://pimanager/report'
 
 action = requests.post(url,
                        data={'mac': mac,

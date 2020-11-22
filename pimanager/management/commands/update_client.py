@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
+from django.urls import reverse
 
 from pimanager.models import Action, Device
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -14,8 +16,14 @@ class Command(BaseCommand):
             devices = Device.objects.filter(name=options['device'][0])
         else:
             devices = Device.objects.all()
+
+        try:
+            url = settings.SITE_URL
+        except AttributeError:
+            url = 'http://pimanager'
+
         for device in devices:
-            command = 'wget -O /tmp/client_setup.sh http://pimanager/static/pimanager/client_scripts/client_setup.sh'
+            command = 'wget -O /tmp/client_setup.sh %s%s' % (url, reverse('device_status:setup'))
             action = Action(device=device, command=command)
             action.save()
             command = 'sh /tmp/client_setup.sh'

@@ -1,3 +1,4 @@
+import os
 import re
 import socket
 import subprocess
@@ -37,7 +38,14 @@ else:
 with open('/sys/firmware/devicetree/base/model', 'r') as fp:
     model = fp.read()
 
-action = requests.post('http://pimanager/device_status/report',
+if os.path.exists('/home/PiManager/report_url.txt'):
+    with open('/home/PiManager/report_url.txt', 'r') as fp:
+        url = fp.read()
+        url = url.strip()
+else:
+    url = 'http://pimanager/device_status/report'
+
+action = requests.post(url,
                        data={'mac': mac,
                              'processes': ps_aux,
                              'ifconfig': ifconfig,

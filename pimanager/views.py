@@ -117,9 +117,12 @@ def action_list(request, mac=None, serial=None, pending=True):
 def action_report(request):
     if request.method == "POST":
         action = get_object_or_404(Action, id=request.POST['action'])
-        action.output = request.POST['output']
-        action.return_code = request.POST['return_code']
-        action.executed = datetime.datetime.now()
+        if 'started' in request.POST:
+            action.executed = datetime.datetime.now()
+        else:
+            action.output = request.POST['output']
+            action.return_code = request.POST['return_code']
+
         action.save()
     return HttpResponse('ok')
 

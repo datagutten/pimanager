@@ -15,6 +15,8 @@ for action in actions.json():
     print(action)
     arguments = action['command'].split(' ')
     output = ''
+    requests.post(base_url + '/action_report', data={'action': action['id'],
+                                                     'started': 'started'})
     try:
         output = subprocess.check_output(arguments, universal_newlines=True,
                                          stderr=subprocess.STDOUT)

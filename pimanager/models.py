@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from datetime import datetime
 from django.apps import apps
@@ -35,6 +36,14 @@ class Device(models.Model):
                 return None
             else:
                 return mac.interface
+
+    def model_short(self):
+        if not self.model:
+            return ''
+
+        model = re.sub(r'Raspberry Pi ([0-9]) Model ([AB](?: Plus)?).+', r'\1\2', str(self.model))
+        model = model.replace(' Plus', '+')
+        return model
 
     def port(self):
         if apps.is_installed('switchinfo'):

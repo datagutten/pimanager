@@ -6,6 +6,7 @@
             <tr>
                 <th>Nummer</th>
                 <th>Serienr</th>
+                <th>Modell</th>
                 <th>IP</th>
                 <th>Port</th>
                 <th>PoE</th>
@@ -22,6 +23,7 @@
                 <tr>
                     <td>{{ device.number }}</td>
                     <td>{{ device.serial }}</td>
+                    <td>{{ device.model_short }}</td>
                     <td>{{ device.ip }}</td>
                     <td>{{ device.port }}</td>
                     {% if device.interface.poe_status %}

@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from django.urls import reverse
 
 from pimanager.models import Action, Device
 from django.conf import settings
@@ -23,9 +22,12 @@ class Command(BaseCommand):
             url = 'http://pimanager'
 
         for device in devices:
-            command = 'wget -O /tmp/client_setup.sh %s%s' % (url, reverse('device_status:setup'))
+            command = 'wget -O /home/action.py %s/static/' \
+                      'pimanager/client_files/action.py' % url
             action = Action(device=device, command=command)
             action.save()
-            command = 'sh /tmp/client_setup.sh'
+
+            command = 'wget -O /home/report_status_pimanager.py %s/static/' \
+                      'pimanager/client_files/report_status_pimanager.py' % url
             action2 = Action(device=device, command=command)
             action2.save()

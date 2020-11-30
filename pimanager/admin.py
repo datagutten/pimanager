@@ -6,7 +6,7 @@ from .models import Action, Device
 
 
 class DeviceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'mac', 'ip', 'last_seen', 'serial')
+    list_display = ('name', 'description', 'mac', 'ip', 'last_seen', 'model', 'serial')
 
 
 admin.site.register(Device, DeviceAdmin)

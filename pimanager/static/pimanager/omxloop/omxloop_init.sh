@@ -8,7 +8,7 @@
 # Description:       Play video or show pictures from USB using omxplayer or fbi
 ### END INIT INFO
 
-SCRIPT=/home/pi/omxloop.py
+SCRIPT=/home/pi/omxloop/omxloop.py
 RUNAS=root
 
 PIDFILE=/var/run/omxloop.pid

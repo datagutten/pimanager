@@ -24,7 +24,7 @@ if len(file_list) == 0:
     fl = file_list_0 + file_list_1 + file_list_2
     if len(fl) == 0:
         # https://edv-huber.com/index.php/problemloesungen/15-custom-splash-screen-for-raspberry-pi-raspbian
-        subprocess.run(['fbi', '-a', '-T', '1', '-noverbose', '/media/no_media.jpg'])
+        subprocess.run(['fbi', '-a', '-T', '1', '-noverbose', '/home/pi/omxloop/no_media.jpg'])
     else:
         fl.sort()
         try:

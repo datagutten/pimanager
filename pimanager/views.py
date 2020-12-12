@@ -150,6 +150,11 @@ def client_setup(request):
     return render(request, 'pimanager/client_setup.sh', {'url': host})
 
 
+def omxloop_setup(request):
+    host = request.build_absolute_uri('/')[:-1]
+    return render(request, 'pimanager/omxloop_setup.sh', {'url': host})
+
+
 def power_cycle(request, device):
     # TODO: Integrate with switch backup
     return HttpResponse('Power cycle not implemented')

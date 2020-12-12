@@ -11,8 +11,8 @@ pkg_resources.require("requests>=1.0.0")
 mac = getnode()
 mac = ':'.join(('%012x' % mac)[i:i+2] for i in range(0, 12, 2))
 
-if os.path.exists('/home/PiManager/url.txt'):
-    with open('/home/PiManager/url.txt', 'r') as fp:
+if os.path.exists('/home/pimanager/url.txt'):
+    with open('/home/pimanager/url.txt', 'r') as fp:
         base_url = fp.read()
         base_url = base_url.strip()
 else:

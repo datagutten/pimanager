@@ -38,8 +38,8 @@ else:
 with open('/sys/firmware/devicetree/base/model', 'r') as fp:
     model = fp.read()
 
-if os.path.exists('/home/PiManager/url.txt'):
-    with open('/home/PiManager/url.txt', 'r') as fp:
+if os.path.exists('/home/pimanager/url.txt'):
+    with open('/home/pimanager/url.txt', 'r') as fp:
         url = fp.read()
         url = '%s/report' % url.strip()
 else:

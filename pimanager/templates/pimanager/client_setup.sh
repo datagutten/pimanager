@@ -5,12 +5,14 @@
 apt-get update
 apt-get -y install python3-requests python3-pkg-resources
 
-mkdir /home/PiManager
-wget -O /home/action.py {{url}}/static/pimanager/client_files/action.py
-wget -O /home/report_status_pimanager.py {{url}}/static/pimanager/client_files/report_status_pimanager.py
-wget -O /etc/cron.d/pimanager {{url}}/static/pimanager/client_files/pimanager.cron
+mkdir /home/pimanager
+mkdir /var/log/pimanager
 
-/usr/bin/python3 /home/report_status_pimanager.py
-/usr/bin/python3 /home/action.py
+wget -O /home/pimanager/action.py {{url}}{% static 'pimanager/client/action.py' %}
+wget -O /home/pimanager/report_status.py {{url}}{% static 'pimanager/client/report_status.py' %}
+wget -O /etc/cron.d/pimanager {{url}}{% static 'pimanager/client_files/pimanager.cron' %}
 
-echo "{{url}}"> /home/PiManager/url.txt
+/usr/bin/python3 /home/pimanager/report_status.py
+/usr/bin/python3 /home/pimanager/action.py
+
+echo "{{url}}" >/home/pimanager/url.txt

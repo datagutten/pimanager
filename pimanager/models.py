@@ -49,7 +49,7 @@ class Device(models.Model):
         if not self.model:
             return ''
 
-        model = re.sub(r'Raspberry Pi ([0-9]) Model ([AB](?: Plus)?).+', r'\1\2', str(self.model))
+        model = re.sub(r'Raspberry Pi (?:([0-9]) Model ([AB](?: Plus)?)|(Zero(?: W)?)).+', r'\1\2', str(self.model))
         model = model.replace(' Plus', '+')
         return model
 

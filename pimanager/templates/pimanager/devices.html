@@ -25,7 +25,12 @@
                     <td>{{ device.serial }}</td>
                     <td>{{ device.model_short }}</td>
                     <td>{{ device.ip }}</td>
-                    <td>{{ device.port }}</td>
+                    {% if device.interface or device.set_interface %}
+                        <td><a href="{% url 'switchinfo:switch' name=device.interface.switch.name %}">
+                            {{ device.interface.switch.name }} {{ device.interface }}</a></td>
+                    {% else %}
+                        <td>{{ device.port }}</td>
+                    {% endif %}
                     {% if device.interface.poe_status %}
                     <td>{{ device.interface.poe_status }}
                         {% if device.interface.poe_status == 'deliveringPower' %}<a href="{% url 'device_status:power_cycle_device' device=device.serial %}">R</a>{% endif %}

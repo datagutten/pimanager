@@ -37,5 +37,5 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-    ], install_requires=['django']
+    ], install_requires=['django', 'switchinfo']
 )

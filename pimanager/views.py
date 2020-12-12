@@ -4,6 +4,7 @@ import re
 from pprint import pprint
 
 from django.apps import apps
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render as django_render
 from django.views.decorators.csrf import csrf_exempt
@@ -48,6 +49,10 @@ def report(request):
             dev.model = request.POST['model']
         if 'mac' in request.POST:
             dev.mac = request.POST['mac']
+            try:
+                dev.interface = dev.find_interface()
+            except ObjectDoesNotExist:
+                pass
 
         dev.ip = request.META['REMOTE_ADDR']
         dev.last_seen = datetime.datetime.now()

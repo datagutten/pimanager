@@ -1,7 +1,10 @@
 import re
+from typing import Optional
+
 from django.db import models
 from datetime import datetime
 from django.apps import apps
+from switchinfo.models import Interface, Mac
 
 
 class Device(models.Model):
@@ -20,6 +23,7 @@ class Device(models.Model):
                               verbose_name='Serienummer')
     model = models.CharField('Modell', max_length=200, blank=True, null=True)
     hide = models.BooleanField('Skjul', default=False)
+    interface = models.ForeignKey(Interface, on_delete=models.SET_NULL, verbose_name='Port', null=True)
 
     def __str__(self):
         return str(self.ip) + ' ' + str(self.name) + ' ' + str(self.description)
@@ -27,15 +31,19 @@ class Device(models.Model):
     class Meta:
         ordering = ['number']
 
-    def interface(self):
-        if apps.is_installed('switchinfo'):
-            from switchinfo.models import Mac
-            mac_address = self.mac.replace(':', '')
-            mac = Mac.objects.get(mac=mac_address)
-            if Mac.objects.filter(interface=mac.interface).count() > 1:
-                return None
-            else:
-                return mac.interface
+    def find_interface(self) -> Optional[Interface]:
+        mac_address = self.mac.replace(':', '')
+        mac = Mac.objects.get(mac=mac_address)
+        return mac.interface
+
+    def set_interface(self):
+        interface = self.find_interface()
+        if interface:
+            self.interface = interface
+            self.save()
+            return True
+        else:
+            return False
 
     def model_short(self):
         if not self.model:

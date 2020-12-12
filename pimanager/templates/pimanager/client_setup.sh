@@ -1,8 +1,10 @@
 {% load static %}
+{% if not nohead %}
 #!/bin/sh
 # curl -s {{ url }}{% url 'device_status:setup' %}|sudo sh
 
 apt-get update
+{% endif %}
 apt-get -y install python3-requests python3-pkg-resources
 
 mkdir /home/pimanager

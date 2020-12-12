@@ -1,8 +1,10 @@
 {% load static %}
+{% if not nohead %}
 #!/bin/sh
 # curl -s {{url}}{% url 'device_status:setup_omxloop' %}|sudo sh
 
 apt-get update
+{% endif %}
 apt-get -y install omxplayer fbi
 
 mkdir /home/pi/omxloop

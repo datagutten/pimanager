@@ -20,7 +20,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'pimanager.apps.PimanagerConfig',
-    'switchinfo.apps.SwitchinfoConfig'
+    'switchinfo.apps.SwitchinfoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

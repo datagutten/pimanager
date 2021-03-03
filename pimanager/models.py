@@ -23,7 +23,8 @@ class Device(models.Model):
                               verbose_name='Serienummer')
     model = models.CharField('Modell', max_length=200, blank=True, null=True)
     hide = models.BooleanField('Skjul', default=False)
-    interface = models.ForeignKey(Interface, on_delete=models.SET_NULL, verbose_name='Port', null=True)
+    interface = models.ForeignKey(Interface, on_delete=models.SET_NULL,
+                                  verbose_name='Port', blank=True, null=True)
 
     def __str__(self):
         return str(self.ip) + ' ' + str(self.name) + ' ' + str(self.description)

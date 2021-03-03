@@ -45,6 +45,13 @@ if os.path.exists('/home/pimanager/url.txt'):
 else:
     url = 'http://pimanager/report'
 
+if os.path.exists('/etc/debian_version'):
+    with open('/etc/debian_version') as fp:
+        debian_version = fp.read()
+else:
+    debian_version = None
+
+
 action = requests.post(url,
                        data={'mac': mac,
                              'processes': ps_aux,
@@ -54,6 +61,7 @@ action = requests.post(url,
                              'uptime': uptime,
                              'upsince': upsince,
                              'serial': serial,
-                             'model': model}
+                             'model': model,
+                             'debian_version': debian_version}
                        )
 print(action.text)

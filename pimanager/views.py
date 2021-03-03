@@ -161,5 +161,27 @@ def omxloop_setup(request):
 
 
 def power_cycle(request, device):
-    # TODO: Integrate with switch backup
-    return HttpResponse('Power cycle not implemented')
+    if apps.is_installed('config_backup'):
+        from config_backup.ConfigBackup import connect
+        device = Device.objects.get(serial=device)
+        interface = device.interface
+        cli = connect(interface.switch)
+        if interface.switch.type == 'Cisco':
+            output = cli.command('conf t', 'config')
+            output += cli.command('in %s' % interface, 'config-if')
+            output += cli.command('power inline never', 'config-if')
+            output += cli.command('power inline auto', 'config-if')
+            output += cli.command('exit', 'config')
+            output += cli.command('exit', '#')
+
+            return render(request, 'pimanager/power_cycle.html',
+                          {'device': device,
+                           'output': output,
+                           'title': 'power cycle'
+                           })
+        else:
+            return HttpResponse(
+                'Unable to power cycle, %s is not supported' % interface.switch.type)
+    else:
+        return HttpResponse(
+            'Unable to power cycle, config_backup is not installed')

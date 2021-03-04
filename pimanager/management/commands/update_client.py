@@ -22,12 +22,10 @@ class Command(BaseCommand):
             url = 'http://pimanager'
 
         for device in devices:
-            command = 'wget -O /home/action.py %s/static/' \
-                      'pimanager/client_files/action.py' % url
-            action = Action(device=device, command=command)
-            action.save()
-
-            command = 'wget -O /home/report_status_pimanager.py %s/static/' \
-                      'pimanager/client_files/report_status_pimanager.py' % url
-            action2 = Action(device=device, command=command)
-            action2.save()
+            Action(device=device,
+                   command='wget -O /home/pimanager_upgrade.sh %s/upgrade' %
+                           url).save()
+            Action(device=device,
+                   command='sh /home/pimanager_upgrade.sh').save()
+            Action(device=device,
+                   command='rm /home/pimanager_upgrade.sh').save()

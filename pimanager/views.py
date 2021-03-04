@@ -1,7 +1,6 @@
 import datetime
 import os
 import re
-from pprint import pprint
 
 from django.apps import apps
 from django.core.exceptions import ObjectDoesNotExist
@@ -37,7 +36,7 @@ def report(request):
                                                           'ip': request.META['REMOTE_ADDR']})
         if number:
             dev.number = int(number.group(1))
-        pprint(dev)
+
         dev.name = request.POST['hostname']
         if 'serial' in request.POST:
             dev.serial = request.POST['serial']

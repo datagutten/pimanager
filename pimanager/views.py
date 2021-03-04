@@ -154,6 +154,11 @@ def client_upgrade(request):
     return render(request, 'pimanager/client_upgrade.sh', {'url': host})
 
 
+def omxloop_upgrade(request):
+    host = request.build_absolute_uri('/')[:-1]
+    return render(request, 'pimanager/omxloop_upgrade.sh', {'url': host})
+
+
 def omxloop_setup(request):
     host = request.build_absolute_uri('/')[:-1]
     return render(request, 'pimanager/omxloop_setup.sh', {'url': host})

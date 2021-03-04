@@ -20,5 +20,6 @@ urlpatterns = [
     path('power_cycle/<str:device>', views.power_cycle, name='power_cycle_device'),
     path('setup', views.client_setup, name='setup'),
     path('upgrade', views.client_upgrade, name='client_upgrade'),
+    path('omxloop_upgrade', views.omxloop_upgrade, name='omxloop_upgrade'),
     path('setup/omxloop.sh', views.omxloop_setup, name='setup_omxloop'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

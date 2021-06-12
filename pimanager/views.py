@@ -166,10 +166,18 @@ def omxloop_setup(request):
 
 def power_cycle(request, device):
     if apps.is_installed('config_backup'):
-        from config_backup.ConfigBackup import connect
+        from config_backup import ConfigBackup
+
         device = Device.objects.get(serial=device)
         interface = device.interface
-        cli = connect(interface.switch)
+        options = ConfigBackup.backup_options(interface.switch)
+        if options.connection_type == 'SSH' or \
+                options.connection_type == 'Telnet':
+            cli = ConfigBackup.connect(interface.switch,
+                                       options.connection_type)
+        else:
+            cli = ConfigBackup.connect(interface.switch)
+
         if interface.switch.type == 'Cisco':
             output = cli.command('conf t', 'config')
             output += cli.command('in %s' % interface, 'config-if')

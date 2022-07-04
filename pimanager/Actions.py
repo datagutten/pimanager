@@ -9,6 +9,7 @@ from pimanager.models import Action, Device
 
 try:
     from config_backup import ConfigBackup
+    from config_backup.switch_cli.connections.exceptions import UnexpectedResponse
 except ImportError:
     pass
 
@@ -19,23 +20,20 @@ def power_cycle(device):
         device = Device.objects.get(serial=device)
         interface = device.interface
         options = ConfigBackup.backup_options(interface.switch)
-        if options.connection_type == 'SSH' or \
-                options.connection_type == 'Telnet':
-            cli = ConfigBackup.connect(interface.switch,
-                                       options.connection_type)
-        else:
-            cli = ConfigBackup.connect(interface.switch)
 
-        if interface.switch.type == 'Cisco':
-            output = cli.command('conf t', 'config')
-            output += cli.command('in %s' % interface, 'config-if')
-            output += cli.command('power inline never', 'config-if')
-            output += cli.command('power inline auto', 'config-if')
-            output += cli.command('exit', 'config')
-            output += cli.command('exit', '#')
+        if options is None:
+            return
 
-            return output
-        else:
-            return 'Unable to power cycle, %s is not supported' % interface.switch.type
+        cli = ConfigBackup.connect_cli(device.interface.switch)
+        try:
+            output = cli.poe_off(device.interface.interface)
+            output += cli.poe_on(device.interface.interface)
+        except NotImplementedError:
+            return 'Power cycling on %s is not supported' % device.interface.switch.type
+        except UnexpectedResponse as e:
+            return str(e)
+
+        return output
+
     else:
         return 'Unable to power cycle, config_backup is not installed'

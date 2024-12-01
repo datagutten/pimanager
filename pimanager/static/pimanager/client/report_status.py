@@ -15,7 +15,13 @@ mac = ':'.join(('%012x' % mac)[i:i + 2] for i in range(0, 12, 2))
 ifconfig = subprocess.check_output(['/sbin/ip', 'addr'], universal_newlines=True)
 
 ps_aux = subprocess.check_output(['/bin/ps', 'aux'])
-tvservice = subprocess.check_output(['tvservice', '-s'])
+
+try:
+    tvservice_process = subprocess.run(['tvservice', '-s'], capture_output=True)
+    tvservice = tvservice_process.stdout
+except subprocess.CalledProcessError:
+    tvservice = None
+
 try:
     uptime = subprocess.check_output(['uptime', '-p'])
     upsince = subprocess.check_output(['uptime', '-s'])

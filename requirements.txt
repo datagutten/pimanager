@@ -1,3 +1,0 @@
-django>=2.2.11
-switchinfo
-django-switch-config-backup

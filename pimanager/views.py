@@ -165,6 +165,11 @@ def omxloop_setup(request):
     return render(request, 'pimanager/omxloop_setup.sh', {'url': host})
 
 
+def player_setup(request):
+    host = request.build_absolute_uri('/')[:-1]
+    return render(request, 'pimanager/player_setup.sh', {'url': host})
+
+
 def power_cycle(request, device):
     output = Actions.power_cycle(device)
     return render(request, 'pimanager/power_cycle.html',

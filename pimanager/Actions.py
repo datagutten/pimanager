@@ -1,9 +1,5 @@
 from django.apps import apps
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, redirect, \
-    render as django_render
-from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 
 from pimanager.models import Action, Device
 
@@ -37,3 +33,13 @@ def power_cycle(device):
 
     else:
         return 'Unable to power cycle, config_backup is not installed'
+
+
+def update_client(device: Device):
+    Action(device=device,
+           command='wget -O /home/pimanager_upgrade.sh %s/upgrade' %
+                   settings.base_url).save()
+    Action(device=device,
+           command='sh /home/pimanager_upgrade.sh').save()
+    Action(device=device,
+           command='rm /home/pimanager_upgrade.sh').save()

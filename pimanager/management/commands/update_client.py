@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from pimanager.models import Action, Device
-from django.conf import settings
+import Actions
+from pimanager.models import Device
 
 
 class Command(BaseCommand):
@@ -16,16 +16,5 @@ class Command(BaseCommand):
         else:
             devices = Device.objects.all()
 
-        try:
-            url = settings.SITE_URL
-        except AttributeError:
-            url = 'http://pimanager'
-
         for device in devices:
-            Action(device=device,
-                   command='wget -O /home/pimanager_upgrade.sh %s/upgrade' %
-                           url).save()
-            Action(device=device,
-                   command='sh /home/pimanager_upgrade.sh').save()
-            Action(device=device,
-                   command='rm /home/pimanager_upgrade.sh').save()
+            Actions.update_client(device)

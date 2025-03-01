@@ -17,12 +17,6 @@ ifconfig = subprocess.check_output(['/sbin/ip', 'addr'], universal_newlines=True
 ps_aux = subprocess.check_output(['/bin/ps', 'aux'])
 
 try:
-    tvservice_process = subprocess.run(['tvservice', '-s'], capture_output=True)
-    tvservice = tvservice_process.stdout
-except subprocess.CalledProcessError:
-    tvservice = None
-
-try:
     uptime = subprocess.check_output(['uptime', '-p'])
     upsince = subprocess.check_output(['uptime', '-s'])
 except subprocess.CalledProcessError:
@@ -63,7 +57,7 @@ action = requests.post(url,
                              'processes': ps_aux,
                              'ifconfig': ifconfig,
                              'hostname': hostname,
-                             'tvservice': tvservice,
+                             'tvservice': None,  # TODO: Find new way to detect screen status
                              'uptime': uptime,
                              'upsince': upsince,
                              'serial': serial,

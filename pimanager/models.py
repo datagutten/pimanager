@@ -11,7 +11,7 @@ class Device(models.Model):
     mac = models.CharField(max_length=45, unique=True)
     name = models.CharField('Navn', max_length=200, blank=True, null=True)
     description = models.CharField('Beskrivelse', max_length=200, blank=True, null=True)
-    message = models.CharField(max_length=200, blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
     ip = models.GenericIPAddressField(blank=True, null=True)
     last_seen = models.DateTimeField('Sist sett', auto_now=False, blank=True, null=True)
     number = models.IntegerField('Nummer', blank=True, null=True)

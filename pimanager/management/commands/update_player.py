@@ -15,9 +15,10 @@ class Command(BaseCommand):
         else:
             devices = Device.objects.all()
         for device in devices:
-            command = 'wget -O /home/pi/omxloop.py http://pimanager/static/pimanager/client_files/omxloop/omxloop.py'
-            action = Action(device=device, command=command)
-            action.save()
-            command = 'wget -O /media/no_media.jpg http://pimanager/static/pimanager/client_files/omxloop/no_media.jpg'
-            action2 = Action(device=device, command=command)
-            action2.save()
+            commands = [
+                'wget -O player_setup.sh http://pimanager/player',
+                'sh player_setup.sh'
+            ]
+            for command in commands:
+                action = Action(device=device, command=command)
+                action.save()

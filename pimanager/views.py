@@ -4,12 +4,13 @@ import re
 
 from django.apps import apps
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render as django_render
 from django.views.decorators.csrf import csrf_exempt
 
-from pimanager.models import Action, Device
 from pimanager import Actions
+from pimanager.models import Action, Device
 
 
 def render(request, template_name, context=None, content_type=None, status=None, using=None):
@@ -37,19 +38,21 @@ def report(request):
 
         if 'serial' not in request.POST:
             return HttpResponse('Missing serial number')
+        serial = request.POST['serial'].strip()
+        if len(serial) == 16:
+            serial = serial[8:]
         try:
-            dev = Device.objects.get(serial=request.POST['serial'])
+            dev = Device.objects.get(Q(serial=request.POST['serial']) | Q(serial=serial))
+            dev.serial = serial
             new = False
         except Device.DoesNotExist:
-            dev = Device(serial=request.POST['serial'])
+            dev = Device(serial=serial)
             new = True
 
         if number:
             dev.number = int(number.group(1))
 
         dev.name = request.POST['hostname']
-        if 'serial' in request.POST:
-            dev.serial = request.POST['serial'].strip()
         if 'uptime' in request.POST:
             dev.uptime = request.POST['uptime'].strip()
         if 'tvservice' in request.POST:

@@ -1,6 +1,6 @@
-from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.urls import path
 
 from . import views
 
@@ -21,6 +21,4 @@ urlpatterns = [
     path('setup', views.client_setup, name='setup'),
     path('upgrade', views.client_upgrade, name='client_upgrade'),
     path('player', views.player_setup, name='setup_player'),
-    path('omxloop_upgrade', views.omxloop_upgrade, name='omxloop_upgrade'),
-    path('setup/omxloop.sh', views.omxloop_setup, name='setup_omxloop'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

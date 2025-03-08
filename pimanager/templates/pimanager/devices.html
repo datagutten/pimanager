@@ -44,7 +44,9 @@
                     <td>{{ device.uptime|default:"" }}</td>
                     <td>{{ device.message|default:"" }}</td>
                     <td>{{ device.screen_status|default:"" }}</td>
-                    <td><a href="{% url 'device_status:actions_pending' mac=device.mac %}">{{ device.pending_actions.count }}</a></td>
+                    <td>
+                        <a href="{% url 'device_status:actions_pending' serial=device.serial %}">{{ device.pending_actions.count }}</a>
+                    </td>
                 </tr>
             {% endfor %}
         </table>

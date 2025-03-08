@@ -49,13 +49,13 @@ def report(request):
 
         dev.name = request.POST['hostname']
         if 'serial' in request.POST:
-            dev.serial = request.POST['serial']
+            dev.serial = request.POST['serial'].strip()
         if 'uptime' in request.POST:
-            dev.uptime = request.POST['uptime']
+            dev.uptime = request.POST['uptime'].strip()
         if 'tvservice' in request.POST:
-            dev.screen_status = request.POST['tvservice']
+            dev.screen_status = request.POST['tvservice'].strip()
         if 'model' in request.POST:
-            dev.model = request.POST['model']
+            dev.model = request.POST['model'].strip(chr(0x00))
         if 'mac' in request.POST:
             dev.mac = request.POST['mac']
             try:

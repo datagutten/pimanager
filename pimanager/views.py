@@ -37,9 +37,13 @@ def report(request):
 
         if 'serial' not in request.POST:
             return HttpResponse('Missing serial number')
-        dev, new = Device.objects.get_or_create(serial=request.POST['serial'],
-                                                defaults={'name': request.POST['hostname'],
-                                                          'ip': request.META['REMOTE_ADDR']})
+        try:
+            dev = Device.objects.get(serial=request.POST['serial'])
+            new = False
+        except Device.DoesNotExist:
+            dev = Device(serial=request.POST['serial'])
+            new = True
+
         if number:
             dev.number = int(number.group(1))
 

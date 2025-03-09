@@ -15,6 +15,7 @@ def power_cycle(serial: str) -> str:
             cli = ConfigBackup.connect(device.interface.switch)
             output = cli.poe_off(device.interface.interface)
             output += cli.poe_on(device.interface.interface)
+            output = output.decode()
         except NotImplementedError:
             return 'Power cycling on %s is not supported' % device.interface.switch.type
         except UnexpectedResponse as e:

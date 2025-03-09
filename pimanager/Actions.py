@@ -3,30 +3,23 @@ from django.conf import settings
 
 from pimanager.models import Action, Device
 
-try:
-    from config_backup import ConfigBackup
-    from config_backup.switch_cli.connections.exceptions import UnexpectedResponse
-except ImportError:
-    pass
 
-
-def power_cycle(device):
+def power_cycle(serial: str) -> str:
     if apps.is_installed('config_backup'):
+        import config_backup.exceptions
+        from config_backup import ConfigBackup
+        from config_backup.switch_cli.connections.exceptions import UnexpectedResponse
+        device = Device.objects.get(serial=serial)
 
-        device = Device.objects.get(serial=device)
-        interface = device.interface
-        options = ConfigBackup.backup_options(interface.switch)
-
-        if options is None:
-            return
-
-        cli = ConfigBackup.connect_cli(device.interface.switch)
         try:
+            cli = ConfigBackup.connect(device.interface.switch)
             output = cli.poe_off(device.interface.interface)
             output += cli.poe_on(device.interface.interface)
         except NotImplementedError:
             return 'Power cycling on %s is not supported' % device.interface.switch.type
         except UnexpectedResponse as e:
+            return str(e) + str(e.payload)
+        except config_backup.exceptions.BackupException as e:
             return str(e)
 
         return output

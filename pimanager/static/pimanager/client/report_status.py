@@ -1,10 +1,9 @@
 import os
 import re
+import requests
 import socket
 import subprocess
 from uuid import getnode
-
-import requests
 
 hostname = socket.gethostname()
 
@@ -29,7 +28,7 @@ except subprocess.CalledProcessError:
 with open('/proc/cpuinfo', 'r') as fp:
     cpuInfo = fp.read()
 
-groups = re.search(r'Serial\s+: .*?([1-9a-f][0-9a-f]+)', cpuInfo)
+groups = re.search(r'Serial\s+: .*?([0-9a-f]+)', cpuInfo)
 if groups:
     serial = groups.group(1)
 else:
